@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>レトロな機会のDJあそび</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      text-align: center;
+      background: #f0f0f0;
+      padding: 20px;
+    }
+    table {
+      margin: 20px auto;
+      border-collapse: collapse;
+    }
+    td, th {
+      padding: 8px;
+    }
+    input[type="checkbox"] {
+      width: 20px;
+      height: 20px;
+    }
+    button {
+      margin: 10px;
+      padding: 10px 20px;
+      font-size: 1.2em;
+    }
+    th {
+      background: #ccc;
+    }
+
+    .image-container {
+  position: relative;
+  display: inline-block;
+}
+
+.tooltip {
+  position: absolute;
+  bottom: 100%; /* 画像の上側に表示 */
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: rgba(0, 0, 0, 0.8);
+  color: #fff;
+  padding: 6px 10px;
+  border-radius: 6px;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s;
+  display: none;
+}
+
+/* 吹き出しの矢印 */
+.tooltip::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: rgba(0, 0, 0, 0.8) transparent transparent transparent;
+}
+
+/* 表示用クラス */
+.tooltip.show {
+  opacity: 1;
+  pointer-events: auto;
+  display: block;
+}
+
+  button {
+    padding: 5px 10px;
+    margin-left: 5px;
+    background-color: #eee;
+    border: 1px solid #aaa;
+    cursor: pointer;
+  }
+  button:hover {
+    background-color: #ddd;
+  }
+
+  .keyboard-wrapper {
+  display: flex;
+  justify-content: center;
+  margin-top: 40px;
+}
+
+#keyboard {
+  position: relative;
+  height: 200px;
+  width: 420px;
+}
+
+
+    .white-key, .black-key {
+      position: absolute;
+      border: 1px solid #000;
+      box-sizing: border-box;
+      text-align: center;
+      font-family: sans-serif;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .white-key {
+      width: 40px;
+      height: 200px;
+      background: white;
+      z-index: 1;
+    }
+
+    .black-key {
+      width: 24px;
+      height: 120px;
+      background: black;
+      color: white;
+      z-index: 2;
+      top: 0px; /* 白鍵の上辺に接する */
+    }
+
+    .key-label {
+      position: absolute;
+      bottom: 4px; /* キーの下に表示 */
+      width: 100%;
+      font-size: 12px;
+    }
+
+    .pressed {
+      background: #ff9999 !important;
+    }
+ 
+
+ 
+
+
+  </style>
+</head>
+<body>
+
+<img src="images/タイトルロゴ.png" alt="🟩 レトロな機会のDJあそび 🎵" width="300" height="150">
+
+<table>
+  <tr>
+    <th>音</th>
+    <th colspan="8">拍</th>
+  </tr>
+  <tr>
+    <!--<td><img src="タイプライター.png" width="80" height="80" alt="タイプライター"></td> -->
+
+    <!--<td>
+        <img src="タイプライター.png" width="80" height="80" alt="タイプライター" id="typewriter">
+        <p id="description" style="display:none; margin:0;">これはタイプライターの画像です。</p>
+      </td>  -->
+
+    
+    <td class="image-container">
+        <img src="images/タイプライター.png" alt="タイプライター" width="80" height="80" class="popup-image" data-sound="taip">
+        <div class="tooltip">「タイプライター」<br>活躍：1930～50年代<br>文字盤を紙に打ち付けて<br>印字する機械</div>
+    </td>      
+      
+
+    <td colspan="8">
+      <input type="checkbox" id="taip0">
+      <input type="checkbox" id="taip1">
+      <input type="checkbox" id="taip2">
+      <input type="checkbox" id="taip3">
+      <input type="checkbox" id="taip4">
+      <input type="checkbox" id="taip5">
+      <input type="checkbox" id="taip6">
+      <input type="checkbox" id="taip7">
+    </td>
+    <td>
+      <button onclick="clearInstrument('taip')">解除</button>
+    </td>
+  </tr>
+  <tr>
+    <!--<td><img src="黒電話.png" width="80" height="80" alt="黒電話"></td> -->
+
+    <td class="image-container">
+        <img src="images/黒電話.png" alt="黒電話" width="80" height="80" class="popup-image" data-sound="kuro">
+        <div class="tooltip">「黒電話」<br>活躍：1950～70年代<br>真っ黒なボディが特徴の<br>ダイヤル式電話機</div>
+    </td>
+    <td colspan="8">
+      <input type="checkbox" id="kuro0">
+      <input type="checkbox" id="kuro1">
+      <input type="checkbox" id="kuro2">
+      <input type="checkbox" id="kuro3">
+      <input type="checkbox" id="kuro4">
+      <input type="checkbox" id="kuro5">
+      <input type="checkbox" id="kuro6">
+      <input type="checkbox" id="kuro7">
+    </td>
+    <td>
+      <button onclick="clearInstrument('kuro')">解除</button>
+    </td>
+  </tr>
+  <tr>
+    <td class="image-container">
+        <img src="images/モールス.png" alt="モールス" width="80" height="80" class="popup-image" data-sound="mors">
+        <div class="tooltip">「モールス電信機」<br>活躍：19世紀後半～20世紀初頭<br>モールス符号を使って電気信号で<br>送受信する通信機器</div>
+    </td>
+    <!--<td><img src="モールス.png" width="80" height="80" alt="モールス信号機"></td>
+  -->
+    <td colspan="8">
+      <input type="checkbox" id="mors0">
+      <input type="checkbox" id="mors1">
+      <input type="checkbox" id="mors2">
+      <input type="checkbox" id="mors3">
+      <input type="checkbox" id="mors4">
+      <input type="checkbox" id="mors5">
+      <input type="checkbox" id="mors6">
+      <input type="checkbox" id="mors7">
+    </td>
+    <td>
+      <button onclick="clearInstrument('mors')">解除</button>
+    </td>
+  </tr>
+  <tr>
+    <td class="image-container">
+        <img src="images/蓄音機.png" alt="蓄音機" width="80" height="80" class="popup-image" data-sound="tiku">
+        <div class="tooltip">「蓄音機」<br>活躍：20世紀初頭<br>電気を使わずに音声を<br>録音・再生する機械</div>
+    </td>
+    <!--<td><img src="蓄音機.png" width="80" height="80" alt="蓄音機"></td>
+  -->
+    <td colspan="8">
+      <input type="checkbox" id="tiku0">
+      <input type="checkbox" id="tiku1">
+      <input type="checkbox" id="tiku2">
+      <input type="checkbox" id="tiku3">
+      <input type="checkbox" id="tiku4">
+      <input type="checkbox" id="tiku5">
+      <input type="checkbox" id="tiku6">
+      <input type="checkbox" id="tiku7">
+    </td>
+    <td>
+      <button onclick="clearInstrument('tiku')">解除</button>
+    </td>
+  </tr>
+
+  <tr>
+    <td class="image-container">
+        <img src="images/ファミコン.png" alt="ファミコン" width="80" height="80" class="popup-image" data-sound="fami">
+        <div class="tooltip">「ファミコン」<br>活躍：1980年代<br>任天堂が1983年に発売した<br>家庭用ゲーム機。通称ファミコン</div>
+    </td>
+    <!--<td><img src="ファミコン.png" width="80" height="80" alt="ファミコン"></td>
+  -->
+    <td colspan="8">
+      <input type="checkbox" id="fami0">
+      <input type="checkbox" id="fami1">
+      <input type="checkbox" id="fami2">
+      <input type="checkbox" id="fami3">
+      <input type="checkbox" id="fami4">
+      <input type="checkbox" id="fami5">
+      <input type="checkbox" id="fami6">
+      <input type="checkbox" id="fami7">
+    </td>
+    <td>
+      <button onclick="clearInstrument('fami')">解除</button>
+    </td>
+  </tr>
+
+  <tr>
+    <td colspan="10" style="text-align: center;">
+      <button onclick="clearAll()">すべてのチェックを解除</button>
+    </td>
+  </tr>
+
+</table>
+
+<button onclick="start()">▶ 再生</button>
+<button onclick="stop()">⏹ 停止</button>
+
+
+
+
+
+
+<!--<h2 style="text-align:center">🎹 ピアノでメロディーラインを作ってみよう！</h2>-->
+  <div class="keyboard-wrapper">
+    <div class="keyboard" id="keyboard">
+      <!-- JavaScriptで白鍵・黒鍵を生成してここに追加 -->
+    </div>
+  </div>
+
+
+
+
+
+
+
+<script>
+
+//説明文
+document.querySelectorAll('.popup-image').forEach(img => {
+  let timeoutId = null;
+
+  img.addEventListener('click', function () {
+    const tooltip = this.nextElementSibling;
+    const soundKey = this.dataset.sound;
+
+    // 音を再生
+    if (soundKey && sounds[soundKey]) {
+      const sound = new Audio(sounds[soundKey].src);
+      sound.play();
+    }
+
+    // すでに表示されていれば手動で消す（toggleとして動作）
+    if (tooltip.classList.contains('show')) {
+      tooltip.classList.remove('show');
+      clearTimeout(timeoutId);
+    } else {
+      // 表示して、10秒後に自動で非表示
+      tooltip.classList.add('show');
+
+      // 前のタイマーをクリアして新しくセット
+      clearTimeout(timeoutId);
+      timeoutId = setTimeout(() => {
+        tooltip.classList.remove('show');
+      }, 10000); // 10秒（10000ミリ秒）
+    }
+  });
+});
+
+
+
+//document.getElementById("typewriter").addEventListener("click", function() {
+//  let desc = document.getElementById("description");
+//  desc.style.display = (desc.style.display === "none") ? "block" : "none";
+//});
+
+
+  const sounds = {
+    taip: new Audio("sounds/タイプライター.mp3"),
+    kuro: new Audio("sounds/黒電話.mp3"),
+    mors: new Audio("sounds/モールス.mp3"),
+    tiku: new Audio("sounds/蓄音機.mp3"),
+    fami: new Audio("sounds/ファミコン.mp3")
+  };
+
+  let currentStep = 0;
+  let intervalId = null;
+  const totalSteps = 8;
+  const bpm = 120;
+  const stepDuration = 60000 / bpm / 2;
+
+  function playSound(name) {
+    // Audio要素は同時再生できるようクローンして使
+    const sound = new Audio(sounds[name].src);
+    sound.play();
+  }
+
+  function stepSequencer() {
+    const instruments = ["taip", "kuro", "mors", "tiku", "fami"];
+    instruments.forEach(instrument => {
+      const checkbox = document.getElementById(`${instrument}${currentStep}`);
+      if (checkbox.checked) {
+        playSound(instrument);
+      }
+    });
+    currentStep = (currentStep + 1) % totalSteps;
+  }
+
+  function start() {
+    if (intervalId === null) {
+      intervalId = setInterval(stepSequencer, stepDuration);
+    }
+  }
+
+  function stop() {
+    clearInterval(intervalId);
+    intervalId = null;
+    currentStep = 0;
+  }
+
+  function clearInstrument(name) {
+    for (let i = 0; i < totalSteps; i++) {
+      const checkbox = document.getElementById(`${name}${i}`);
+      if (checkbox) checkbox.checked = false
+    }
+  }
+
+  function clearAll() {
+    const instruments = ["taip", "kuro", "mors", "tiku", "fami"];
+    instruments.forEach(clearInstrument);
+  }
+
+
+  
+  const WHITE_KEY_WIDTH = 40;
+    const WHITE_KEY_HEIGHT = 200;
+    const BLACK_KEY_WIDTH = 24;
+    const BLACK_KEY_HEIGHT = 120;
+
+    const keys = [
+      { note: "C4",  key: "a", type: "white" },
+      { note: "C#4", key: "w", type: "black", offset: 28 },
+      { note: "D4",  key: "s", type: "white" },
+      { note: "D#4", key: "e", type: "black", offset: 68 },
+      { note: "E4",  key: "d", type: "white" },
+      { note: "F4",  key: "f", type: "white" },
+      { note: "F#4", key: "t", type: "black", offset: 148 },
+      { note: "G4",  key: "g", type: "white" },
+      { note: "G#4", key: "y", type: "black", offset: 188 },
+      { note: "A4",  key: "h", type: "white" },
+      { note: "A#4", key: "u", type: "black", offset: 228 },
+      { note: "B4",  key: "j", type: "white" },
+      { note: "C5",  key: "k", type: "white" },
+      { note: "C#5", key: "o", type: "black", offset: 308},
+      { note: "D5",  key: "l", type: "white" },
+      { note: "D#5", key: "p", type: "black", offset: 348},
+      { note: "E5",  key: ";", type: "white" }
+    ];
+
+    const keyboard = document.getElementById('keyboard');
+
+    let whiteIndex = 0;
+    keys.forEach(k => {
+      const keyDiv = document.createElement('div');
+      keyDiv.classList.add(k.type + '-key');
+      keyDiv.dataset.note = k.note;
+      keyDiv.dataset.key = k.key;
+
+      if (k.type === 'white') {
+        keyDiv.style.left = (whiteIndex * WHITE_KEY_WIDTH) + 'px';
+        whiteIndex++;
+      } else {
+        keyDiv.style.left = k.offset + 'px';
+      }
+
+      const label = document.createElement('div');
+      label.className = 'key-label';
+      label.innerText = k.key;
+      keyDiv.appendChild(label);
+
+      keyDiv.addEventListener('mousedown', () => pressKey(keyDiv));
+      keyDiv.addEventListener('mouseup', () => releaseKey(keyDiv));
+      keyboard.appendChild(keyDiv);
+    });
+
+    function pressKey(elem) {
+      elem.classList.add('pressed');
+      // ここで音を再生する処理を追加
+      const note = elem.dataset.note;
+      const audio = new Audio(`sounds/${encodeURIComponent(note)}.mp3`);
+      audio.play();
+    }
+
+    function releaseKey(elem) {
+      elem.classList.remove('pressed');
+    }
+
+    // キーボード対応
+    document.addEventListener('keydown', (e) => {
+      const key = document.querySelector(`[data-key="${e.key}"]`);
+      if (key) pressKey(key);
+    });
+
+    document.addEventListener('keyup', (e) => {
+      const key = document.querySelector(`[data-key="${e.key}"]`);
+      if (key) releaseKey(key);
+    });
+
+
+
+</script>
+
+</body>
+</html>
